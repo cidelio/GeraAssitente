@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gera Assistente</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .chat-container {
+      width: 400px;
+      background: #fff;
+      padding: 20px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      height: 500px;
+    }
+
+    .chat-box {
+      flex: 1;
+      overflow-y: auto;
+      margin-bottom: 10px;
+    }
+
+    .message {
+      padding: 10px;
+      border-radius: 8px;
+      margin: 5px 0;
+      max-width: 80%;
+    }
+
+    .user {
+      background: #d1f7c4;
+      align-self: flex-end;
+    }
+
+    .bot {
+      background: #eee;
+      align-self: flex-start;
+    }
+
+    input {
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      width: 100%;
+    }
+
+    button {
+      margin-top: 10px;
+      padding: 10px;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+    <div class="chat-box" id="chatBox"></div>
+    <input type="text" id="userMessage" placeholder="Digite sua pergunta...">
+    <button onclick="sendMessage()">Enviar</button>
+  </div>
+
+  <script>
+    const apiKey = "bff0c059d1195c79e86d8f4066b32195a30aa00db4dfa446df78cdcb332cb0c6";
+
+    function addMessage(text, sender) {
+      const box = document.getElementById('chatBox');
+      const msg = document.createElement('div');
+      msg.className = 'message ' + (sender === 'user' ? 'user' : 'bot');
+      msg.textContent = text;
+      box.appendChild(msg);
+      box.scrollTop = box.scrollHeight;
+    }
+
+    async function sendMessage() {
+      const input = document.getElementById('userMessage');
+      const query = input.value.trim();
+      if (!query) return;
+
+      addMessage(query, 'user');
+      input.value = '';
+
+      try {
+        const res = await fetch(`https://serpapi.com/search.json?q=${encodeURIComponent(query)}&api_key=${apiKey}`);
+        const data = await res.json();
+
+        if (data.organic_results && data.organic_results.length > 0) {
+          const result = data.organic_results[0].snippet || "Resultado encontrado, mas sem descrição.";
+          addMessage(result, 'bot');
+        } else {
+          addMessage("Não encontrei resultados relevantes.", 'bot');
+        }
+      } catch (e) {
+        addMessage("Erro de conexão. Verifique sua internet ou CORS do navegador.", 'bot');
+        console.error(e);
+      }
+    }
+  </script>
+</body>
+  </html>
