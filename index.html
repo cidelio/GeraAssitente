@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <!-- Metadados SEO -->
+  <title>mozAi</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Blog mozAi com conteúdo sobre tecnologia, religião, futebol, educação e cultura">
+  <meta name="keywords" content="blog, tecnologia, religião, futebol, Moçambique, cursos">
+  <meta name="author" content="Cidélio Gera">
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:title" content="mozAi">
+  <meta property="og:description" content="Conteúdo diversificado sobre tecnologia, sociedade e cultura">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Favicon -->
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+  <!-- CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.3/dist/semantic.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      padding-top: 60px;
+      background-color: #f5f5f5;
+      font-family: 'Roboto', sans-serif;
+    }
+    /* Alternativa mantendo o gradiente colorido */
+#topbar {
+  background: linear-gradient(135deg, #6e8efb, #a777e3); /* Mantém o gradiente original */
+}
+
+.hamburger, .search-icon {
+  color: #000 !important;
+  background-color: rgba(255,255,255,0.7); /* Fundo branco semi-transparente */
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.hamburger:hover, .search-icon:hover {
+  background-color: rgba(255,255,255,0.9);
+}
+    
+    #topbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      height: 60px;
+      background: white;
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      z-index: 1000;
+    }
+    
+    .topbar-title {
+      font-size: 5rem;
+      font-weight: 700;
+      color: black;
+      margin: 0 auto;
+      text-align: center;
+      text-decoration: none;
+      font-family: 'Poppins', sans-serif;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    }
+    
+    .blog-container {
+      max-width: 600px;
+      margin: 10px auto;
+      padding: 15px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      font-size: 1.2em;
+      line-height: 37px;
+    }
+    
+    .blog-image {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+    
+    .blog-image:hover {
+      transform: scale(1.01);
+    }
+    
+    .menu-categorias {
+      position: fixed;
+      top: 60px;
+      left: 0;
+      width: 280px;
+      height: calc(100vh - 60px);
+      background: white;
+      box-shadow: 5px 0 15px rgba(0,0,0,0.05);
+      overflow-y: auto;
+      transform: translateX(-100%);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 999;
+      padding: 20px 0;
+    }
+    
+    .menu-categorias.active {
+      transform: translateX(0);
+    }
+    
+    .search-container {
+      position: fixed;
+      top: 60px;
+      right: 20px;
+      background: white;
+      padding: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      border-radius: 8px;
+      display: none;
+      z-index: 1001;
+      width: 350px;
+      max-width: 90%;
+    }
+    
+    .search-container.active {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+    
+    .categoria-item {
+      padding: 12px 25px;
+      color: #555;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      transition: all 0.2s ease;
+      border-left: 3px solid transparent;
+    }
+    
+    .categoria-item:hover {
+      background-color: #f8f9fa;
+      color: #6e8efb;
+      border-left: 3px solid #6e8efb;
+    }
+    
+    .categoria-item i {
+      margin-right: 12px;
+      width: 20px;
+      text-align: center;
+      color: #888;
+    }
+    
+    .categoria-item:hover i {
+      color: #6e8efb;
+    }
+    
+    .categoria-header {
+      padding: 15px 25px;
+      font-weight: 600;
+      color: #6e8efb;
+      border-bottom: 1px solid #eee;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .categoria-header i {
+      margin-right: 10px;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @media (max-width: 768px) {
+      .topbar-title {
+        font-size: 1.5rem;
+      }
+      
+      .menu-categorias {
+        width: 250px;
+      }
+      
+      .search-container {
+        right: 10px;
+        left: 10px;
+        width: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Topbar -->
+  <div id="topbar">
+    <button class="btn btn-link hamburger text-white">
+      <i class="fas fa-bars"></i>
+    </button>
+    <a href="#" class="topbar-title">mozAi</a>
+    <button class="btn btn-link search-icon text-white">
+      <i class="fas fa-search"></i>
+    </button>
+  </div>
+  
+  <!-- Menu de Categorias -->
+  <div class="menu-categorias">
+    <div class="categoria-header">
+      <i class="fas fa-th-list"></i>
+      <span>Categorias</span>
+    </div>
+    <!-- Itens serão preenchidos via JavaScript -->
+  </div>
+  
+  <!-- Barra de Pesquisa -->
+  <div class="search-container">
+    <div class="ui fluid icon input">
+      <input type="text" placeholder="Pesquisar no blog..." id="searchInput">
+      <i class="search icon"></i>
+    </div>
+    <div id="searchResults" class="ui relaxed divided list mt-3"></div>
+  </div>
+
+  <!-- Conteúdo Principal -->
+  <div class="blog-container">
+    <h1 class="blog-title">Título do Artigo</h1>
+    <img class="blog-image" src="https://i.ibb.co/PsqM9L1s/Java-Script-code.png" alt="Imagem do artigo">
+    <div class="blog-content">
+      Conteúdo do artigo será carregado aqui...
+    </div>
+    <div class="blog-links"></div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.3/dist/semantic.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Elementos da interface
+      const hamburger = document.querySelector('.hamburger');
+      const menuCategorias = document.querySelector('.menu-categorias');
+      const searchIcon = document.querySelector('.search-icon');
+      const searchContainer = document.querySelector('.search-container');
+      const searchInput = document.getElementById('searchInput');
+      const searchResults = document.getElementById('searchResults');
+      
+      // Dados do blog
+      const blogData = {
+        titulo: "O que é JavaScript?",
+        conteudo: [
+          "JavaScript é uma linguagem de programação usada por desenvolvedores para fazer páginas interativas da Internet. As funções de JavaScript podem melhorar a experiência do usuário durante a navegação em um site, como, por exemplo, desde a atualização do feed na página da mídia social até a exibição de animações e mapas interativos.",
+          "A Importância do JavaScript no Mundo da Programação. O JavaScript é uma das linguagens de programação mais importantes e populares do mundo. Ele é usado principalmente para criar sites e aplicações interativas. Sempre que você clica em um botão, vê um menu se abrindo ou interage com uma animação em uma página web, há grandes chances de que o JavaScript esteja por trás disso.",
+
+          // Imagem inserida diretamente no conteúdo (como HTML)
+          `<img src="https://i.ibb.co/rfRYTgBg/images.png" alt="Logo do JavaScript" class="img-fluid my-3" style="max-width: 300px; display: block; margin: 0 auto; border: 1px solid #ddd; border-radius: 8px;">`,
+
+          "Uma das maiores vantagens do JavaScript é que ele funciona diretamente nos navegadores, sem precisar instalar nada. Isso facilita o trabalho dos desenvolvedores e melhora a experiência dos usuários. Além disso, ele é compatível com todos os principais navegadores (Chrome, Firefox, Safari, etc.).",
+          "O JavaScript também permite criar aplicações completas, tanto no lado do cliente (frontend) quanto no servidor (backend), com o uso de ferramentas como Node.js. Isso significa que, com JavaScript, é possível criar desde um simples site até redes sociais, jogos online, plataformas de ensino e muito mais.",
+          "Além disso, bibliotecas e frameworks como React, Angular e Vue.js tornaram o desenvolvimento ainda mais rápido e organizado. Graças a isso, o JavaScript se tornou essencial para startups, empresas de tecnologia e desenvolvedores autônomos.",
+          "Em resumo, aprender JavaScript é abrir as portas para o mundo da programação moderna. Ele é uma linguagem versátil, poderosa e fundamental para quem quer criar soluções digitais na web."
+        ],
+        imagem: "https://i.ibb.co/PsqM9L1s/Java-Script-code.png", // Imagem principal
+        recursos: [
+          {
+            texto: "Documentação oficial do JavaScript",
+            link: "https://developer.mozilla.org/pt-BR/docs/Web/JavaScript",
+            descricao: "Aprenda JavaScript com a documentação da MDN"
+          },
+          {
+            texto: "W3Schools JavaScript Tutorial",
+            link: "https://www.w3schools.com/js/",
+            descricao: "Tutorial interativo de JavaScript"
+          }
+        ],
+        tags: ["javascript", "programação", "web", "frontend", "desenvolvimento"]
+      };
+
+      // Dados de exemplo para pesquisa (simulando vários posts)
+      const posts = [
+        {
+          id: 1,
+          title: "O que é JavaScript?",
+          content: blogData.conteudo.join(" "),
+          tags: ["javascript", "programação", "web"],
+          category: "Tecnologia"
+        },
+        {
+          id: 2,
+          title: "Introdução ao HTML5",
+          content: "HTML5 é a última versão do HTML, a linguagem de marcação usada para estruturar e apresentar conteúdo na web.",
+          tags: ["html", "web", "frontend"],
+          category: "Tecnologia"
+        },
+        {
+          id: 3,
+          title: "CSS Moderno",
+          content: "CSS3 trouxe muitas novidades para o design web, como animações, gradientes e layouts flexíveis.",
+          tags: ["css", "design", "frontend"],
+          category: "Design"
+        },
+        {
+          id: 4,
+          title: "Futebol em Moçambique",
+          content: "O futebol moçambicano tem crescido nos últimos anos com novos talentos surgindo.",
+          tags: ["futebol", "esportes", "Moçambique"],
+          category: "Esportes"
+        },
+        {
+          id: 5,
+          title: "Educação Digital",
+          content: "Como a tecnologia está transformando a educação em Moçambique.",
+          tags: ["educação", "tecnologia", "Moçambique"],
+          category: "Educação"
+        }
+      ];
+
+      // Categorias com ícones
+      const categorias = [
+        { nome: 'Página Inicial', icon: 'home' },
+        { nome: 'Tecnologia', icon: 'laptop-code' },
+        { nome: 'Programação', icon: 'code' },
+        { nome: 'Design', icon: 'paint-brush' },
+        { nome: 'Negócios', icon: 'briefcase' },
+        { nome: 'Marketing', icon: 'bullhorn' },
+        { nome: 'Produtividade', icon: 'tasks' },
+        { nome: 'Carreira', icon: 'user-tie' },
+        { nome: 'Estilo de Vida', icon: 'heart' },
+        { nome: 'Educação', icon: 'graduation-cap' },
+        { nome: 'Eventos', icon: 'calendar-alt' },
+        { nome: 'Esportes', icon: 'futbol' },
+        { nome: 'Cultura', icon: 'theater-masks' }
+       // { nome: 'livro', icon: 'book'},
+      ];
+
+      // Menu de categorias
+      hamburger.addEventListener('click', function() {
+        if (menuCategorias.children.length === 1) { // Apenas o header está presente
+          categorias.forEach(categoria => {
+            const item = document.createElement('a');
+            item.href = '#';
+            item.className = 'categoria-item';
+            item.innerHTML = `
+              <i class="fas fa-${categoria.icon}"></i>
+              <span>${categoria.nome}</span>
+            `;
+            
+            // Adiciona contador de posts para algumas categorias
+            if (['Tecnologia', 'Design', 'Esportes', 'Educação'].includes(categoria.nome)) {
+              const count = posts.filter(p => p.category === categoria.nome).length;
+              if (count > 0) {
+                item.innerHTML += `<span class="ui mini teal circular label" style="margin-left: auto;">${count}</span>`;
+              }
+            }
+            
+            menuCategorias.appendChild(item);
+          });
+        }
+        
+        menuCategorias.classList.toggle('active');
+        this.classList.toggle('active');
+      });
+      
+      // Fechar menu ao clicar fora
+      document.addEventListener('click', function(e) {
+        if (!menuCategorias.contains(e.target) && e.target !== hamburger) {
+          menuCategorias.classList.remove('active');
+          hamburger.classList.remove('active');
+        }
+      });
+      
+      // Pesquisa
+      searchIcon.addEventListener('click', () => {
+        searchContainer.classList.toggle('active');
+        if (searchContainer.classList.contains('active')) {
+          searchInput.focus();
+        }
+      });
+      
+      // Fechar pesquisa ao clicar fora
+      document.addEventListener('click', function(e) {
+        if (!searchContainer.contains(e.target) && e.target !== searchIcon && !e.target.classList.contains('search')) {
+          searchContainer.classList.remove('active');
+        }
+      });
+      
+      // Função de pesquisa
+      function performSearch(query) {
+        if (!query.trim()) {
+          searchResults.innerHTML = '<div class="item text-muted">Digite um termo para pesquisar</div>';
+          return;
+        }
+        
+        const lowerQuery = query.toLowerCase();
+        const results = posts.filter(post => 
+          post.title.toLowerCase().includes(lowerQuery) || 
+          post.content.toLowerCase().includes(lowerQuery) ||
+          post.tags.some(tag => tag.toLowerCase().includes(lowerQuery))
+        );
+        
+        if (results.length === 0) {
+          searchResults.innerHTML = '<div class="item text-muted">Nenhum resultado encontrado</div>';
+          return;
+        }
+        
+        searchResults.innerHTML = '';
+        results.forEach(post => {
+          const resultItem = document.createElement('div');
+          resultItem.className = 'item';
+          resultItem.innerHTML = `
+            <div class="content">
+              <a class="header" href="#" data-post-id="${post.id}">${post.title}</a>
+              <div class="description">
+                <span class="ui tiny teal label">${post.category}</span>
+                ${post.content.substring(0, 80)}...
+              </div>
+            </div>
+          `;
+          searchResults.appendChild(resultItem);
+        });
+      }
+      
+      // Eventos de pesquisa
+      searchInput.addEventListener('keyup', (e) => {
+        if (e.key === 'Enter' || searchInput.value.length > 2) {
+          performSearch(searchInput.value);
+        }
+      });
+      
+      // Carregar conteúdo do post
+      function carregarConteudoBlog() {
+        // Seleciona os elementos existentes
+        const blogTitle = document.querySelector('.blog-title');
+        const blogImage = document.querySelector('.blog-image');
+        const contentElement = document.querySelector('.blog-content');
+        const blogLinks = document.querySelector('.blog-links');
+
+        // Preenche os elementos com o conteúdo
+        if (blogTitle) blogTitle.textContent = blogData.titulo;
+        if (blogImage) {
+          blogImage.src = blogData.imagem;
+          blogImage.alt = blogData.titulo;
+          blogImage.classList.add('img-fluid');
+        }
+
+        // Limpa e preenche o conteúdo (interpretando HTML)
+        if (contentElement) {
+          contentElement.innerHTML = '';
+          blogData.conteudo.forEach(item => {
+            const div = document.createElement('div');
+            div.innerHTML = item;
+            contentElement.appendChild(div);
+          });
+        }
+
+        // Preenche os recursos úteis
+        if (blogLinks) {
+          blogLinks.innerHTML = '<h3 class="mt-4">Recursos Úteis</h3>';
+          blogData.recursos.forEach(recurso => {
+            const linkHTML = `
+              <div class="ui segment">
+                <p>
+                  <a href="${recurso.link}" target="_blank" class="text-decoration-none">
+                    <i class="fas fa-external-link-alt me-1"></i> ${recurso.texto}
+                  </a> - ${recurso.descricao}
+                </p>
+              </div>
+            `;
+            blogLinks.innerHTML += linkHTML;
+          });
+        }
+      }
+      
+      carregarConteudoBlog();
+      
+      // Inicializa tooltips do Fomantic UI
+      $('.hamburger').popup({
+        content: 'Menu de categorias',
+        position: 'bottom center'
+      });
+      
+      $('.search-icon').popup({
+        content: 'Pesquisar',
+        position: 'bottom center'
+      });
+    });
+  </script>
+</body>
+</html>
+
+
